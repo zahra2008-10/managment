@@ -1,4 +1,4 @@
-/// ================= DATA =================
+// ================= DATA =================
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let editIndex = -1;
 
@@ -47,7 +47,7 @@ function addProduct() {
 
     reader.readAsDataURL(file);
   } else {
-    // If editing and user doesn't select a new image,
+    // If editing and no new image is selected,
     // keep the old image
     let image = editIndex !== -1 ? products[editIndex].image : "";
 
@@ -102,6 +102,21 @@ function displayProducts(list = products) {
   document.getElementById("count").innerText = list.length;
 
   list.forEach(function (product, index) {
+    // ================= IMAGE =================
+    let imageHTML = "";
+
+    if (product.image) {
+      imageHTML = `
+        <img
+          src="${product.image}"
+          width="200"
+          height="200"
+          style="object-fit: cover;"
+        >
+      `;
+    }
+
+    // ================= CARD =================
     container.innerHTML += `
       <div class="card">
 
@@ -122,12 +137,7 @@ function displayProducts(list = products) {
           ${product.quantity}
         </p>
 
-        <img 
-          src="${product.image}" 
-          width="200"
-          height="200"
-          style="object-fit: cover;"
-        >
+        ${imageHTML}
 
         <p>
           <strong>Description:</strong>
@@ -195,6 +205,21 @@ function displayFilteredProducts(list) {
     let product = item.product;
     let index = item.index;
 
+    // ================= IMAGE =================
+    let imageHTML = "";
+
+    if (product.image) {
+      imageHTML = `
+        <img
+          src="${product.image}"
+          width="200"
+          height="200"
+          style="object-fit: cover;"
+        >
+      `;
+    }
+
+    // ================= CARD =================
     container.innerHTML += `
       <div class="card">
 
@@ -215,12 +240,7 @@ function displayFilteredProducts(list) {
           ${product.quantity}
         </p>
 
-        <img 
-          src="${product.image}" 
-          width="200"
-          height="200"
-          style="object-fit: cover;"
-        >
+        ${imageHTML}
 
         <p>
           <strong>Description:</strong>
