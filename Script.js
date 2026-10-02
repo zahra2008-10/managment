@@ -1,50 +1,60 @@
-// ================= DATA =================
+/// ================= DATA =================
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let editIndex = -1;
 
 // ================= ADD PRODUCT =================
 function addProduct() {
-  let name = document.getElementById("name").value;
-  let category = document.getElementById("category").value;
-  let price = document.getElementById("price").value;
-  let quantity = document.getElementById("quantity").value;
-  let direction = document.getElementById("text").value;
+  let name = document.getElementById("name").value.trim();
+  let category = document.getElementById("category").value.trim();
+  let price = document.getElementById("price").value.trim();
+  let quantity = document.getElementById("quantity").value.trim();
+  let direction = document.getElementById("text").value.trim();
   let file = document.getElementById("file").files[0];
 
-  let reader = new FileReader();
+  // ================= VALIDATION =================
+  if (name === "") {
+    alert("The name input should be filled");
+    return;
+  }
+
+  if (category === "") {
+    alert("The category input should be filled");
+    return;
+  }
+
+  if (price === "") {
+    alert("The price input should be filled");
+    return;
+  }
+
+  if (quantity === "") {
+    alert("The quantity input should be filled");
+    return;
+  }
+
+  if (direction === "") {
+    alert("The description input should be filled");
+    return;
+  }
+
+  // ================= IMAGE =================
   if (file) {
+    let reader = new FileReader();
+
     reader.onload = function (e) {
       saveProduct(e.target.result);
     };
+
     reader.readAsDataURL(file);
   } else {
+    // If editing and user doesn't select a new image,
+    // keep the old image
     let image = editIndex !== -1 ? products[editIndex].image : "";
+
     saveProduct(image);
   }
 
-  // ===== VALIDATION =====
-  if (name == "") {
-    alert("the name input should be fulled");
-    return;
-  }
-  if (category == "") {
-    alert("the category input should be fulled");
-    return;
-  }
-  if (price == "") {
-    alert("the price input should be fulled");
-    return;
-  }
-  if (quantity == "") {
-    alert("this quantity input should be fulled");
-    return;
-  }
-  if (direction == "") {
-    alert("the direction input should be fulled");
-    return;
-  }
-
-  // ===== SAVE PRODUCT FUNCTION =====
+  // ================= SAVE PRODUCT =================
   function saveProduct(image) {
     let product = {
       name: name,
@@ -55,13 +65,21 @@ function addProduct() {
       image: image,
     };
 
+    // ================= ADD =================
     if (editIndex === -1) {
       products.push(product);
-    } else {
+    }
+
+    // ================= EDIT =================
+    else {
       products[editIndex] = product;
       editIndex = -1;
     }
 
+    // Save to localStorage
+    localStorage.setItem("products", JSON.stringify(products));
+
+    // Display products
     displayProducts();
 
     // ================= CLEAR INPUTS =================
@@ -72,44 +90,73 @@ function addProduct() {
     document.getElementById("file").value = "";
     document.getElementById("text").value = "";
   }
-
-  // ===== SAVE TO STORAGE =====
-  localStorage.setItem("products", JSON.stringify(products));
 }
 
 // ================= DISPLAY PRODUCTS =================
 function displayProducts(list = products) {
   let container = document.getElementById("products");
+
   container.innerHTML = "";
+
+  // Product counter
   document.getElementById("count").innerText = list.length;
 
   list.forEach(function (product, index) {
     container.innerHTML += `
-        <div class="card">
+      <div class="card">
 
-        <img src="${product.image}" width="100">
-        <p><strong>Category:</strong> ${product.category}</p>
-        <p><strong>Price:</strong> $${product.price}</p>
-        <p><strong>Quantity:</strong> ${product.quantity}</p>
-        <p>${product.description}</p>
+        <h3>${product.name}</h3>
 
+        <p>
+          <strong>Category:</strong>
+          ${product.category}
+        </p>
 
-            <button onclick="editProduct(${index})">Edit</button>
-            <button onclick="deleteProduct(${index})">Delete</button>
-           
-        </div>
-        `;
+        <p>
+          <strong>Price:</strong>
+          $${product.price}
+        </p>
+
+        <p>
+          <strong>Quantity:</strong>
+          ${product.quantity}
+        </p>
+
+        <img 
+          src="${product.image}" 
+          width="200"
+          height="200"
+          style="object-fit: cover;"
+        >
+
+        <p>
+          <strong>Description:</strong>
+          ${product.direction}
+        </p>
+
+        <button onclick="editProduct(${index})">
+          Edit
+        </button>
+
+        <button onclick="deleteProduct(${index})">
+          Delete
+        </button>
+
+      </div>
+    `;
   });
 }
 
 // ================= EDIT PRODUCT =================
 function editProduct(index) {
   let product = products[index];
+
   document.getElementById("name").value = product.name;
   document.getElementById("category").value = product.category;
   document.getElementById("price").value = product.price;
   document.getElementById("quantity").value = product.quantity;
   document.getElementById("text").value = product.direction;
+
   editIndex = index;
 }
 
@@ -127,38 +174,69 @@ function searchByName() {
   let searchValue = document.getElementById("searchName").value.toLowerCase();
 
   let filteredProducts = products
-    .map((product, index) => ({ product, index }))
-    .filter(
-      (item) =>
-        item.product.name.toLowerCase().includes(searchValue) ||
-        item.product.category.toLowerCase().includes(searchValue),
-    );
+    .map((product, index) => ({
+      product,
+      index,
+    }))
+    .filter((item) => item.product.name.toLowerCase().includes(searchValue));
 
   displayFilteredProducts(filteredProducts);
 }
 
-// ================= SEARCH BY CATEGORY =================
+// ================= DISPLAY FILTERED PRODUCTS =================
 function displayFilteredProducts(list) {
   let container = document.getElementById("products");
+
   container.innerHTML = "";
+
+  document.getElementById("count").innerText = list.length;
 
   list.forEach(function (item) {
     let product = item.product;
     let index = item.index;
 
     container.innerHTML += `
-        <div>
-            <h3>${product.name}</h3>
-            <p>${product.category}</p>
-            <p>${product.price}</p>
-            <p>${product.quantity}</p>
-            <img src="${product.image}" width="200%" height="300px" style="object-fit:cover;">
-            <p> ${product.direction}</p>
+      <div class="card">
 
-            <button onclick="editProduct(${index})">Edit</button>
-            <button onclick="deleteProduct(${index})">Delete</button>
-        </div>
-        `;
+        <h3>${product.name}</h3>
+
+        <p>
+          <strong>Category:</strong>
+          ${product.category}
+        </p>
+
+        <p>
+          <strong>Price:</strong>
+          $${product.price}
+        </p>
+
+        <p>
+          <strong>Quantity:</strong>
+          ${product.quantity}
+        </p>
+
+        <img 
+          src="${product.image}" 
+          width="200"
+          height="200"
+          style="object-fit: cover;"
+        >
+
+        <p>
+          <strong>Description:</strong>
+          ${product.direction}
+        </p>
+
+        <button onclick="editProduct(${index})">
+          Edit
+        </button>
+
+        <button onclick="deleteProduct(${index})">
+          Delete
+        </button>
+
+      </div>
+    `;
   });
 }
 
@@ -169,7 +247,10 @@ function searchByCategory() {
     .value.toLowerCase();
 
   let filteredProducts = products
-    .map((product, index) => ({ product, index }))
+    .map((product, index) => ({
+      product,
+      index,
+    }))
     .filter((item) =>
       item.product.category.toLowerCase().includes(searchValue),
     );
@@ -195,4 +276,7 @@ window.onload = function () {
   if (theme === "dark") {
     document.body.classList.add("dark");
   }
+
+  // Display saved products when page loads
+  displayProducts();
 };

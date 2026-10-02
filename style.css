@@ -1,3 +1,7 @@
+/* =========================
+   DARK MODE
+========================= */
+
 body.dark {
   background-color: #121212;
   color: white;
@@ -8,95 +12,115 @@ body.dark .card {
   color: white;
 }
 
+/* =========================
+   GENERAL
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
   background-color: rgb(241, 229, 229);
-
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   color: rgb(16, 9, 9);
 }
+
 header {
   text-align: center;
   color: black;
 }
+
+/* =========================
+   MAIN FORM CONTAINER
+========================= */
+
 .container {
   display: flex;
   flex-direction: column;
   gap: 15px;
+
   border: 3px solid rgb(184, 180, 180);
-  width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 90%;
+  max-width: 1000px;
+
+  margin: 20px auto;
+  padding: 20px;
+
   border-radius: 6px;
 }
-#name {
-  height: 40px;
-  background-color: blanchedalmond;
-  border: 1px solid rgb(187, 181, 181);
-  padding: 7px;
-}
-#category {
-  height: 40px;
-  background-color: blanchedalmond;
-  border: 1px solid rgb(187, 181, 181);
-  padding: 7px;
-}
-#price {
-  height: 40px;
-  background-color: blanchedalmond;
-  border: 1px solid rgb(187, 181, 181);
-  padding: 7px;
-}
-#quantity {
-  height: 40px;
-  background-color: blanchedalmond;
-  border: 1px solid rgb(187, 181, 181);
-  padding: 7px;
-}
-#text {
-  height: 40px;
-  background-color: blanchedalmond;
-  border: 1px solid rgb(187, 181, 181);
-  padding: 7px;
-}
+
+/* =========================
+   INPUTS
+========================= */
+
+#name,
+#category,
+#price,
+#quantity,
+#text,
 #file {
+  width: 100%;
   height: 40px;
+
   background-color: blanchedalmond;
   border: 1px solid rgb(187, 181, 181);
+
   padding: 7px;
+  border-radius: 4px;
 }
+
+/* =========================
+   SEARCH
+========================= */
 
 .container2 {
   display: flex;
-  flex-direction: row;
-  margin-left: 135px;
+  gap: 15px;
+
+  width: 90%;
+  max-width: 1000px;
+
+  margin: 20px auto;
 }
-#searchName {
-  width: 500px;
-  height: 25px;
-  background-color: beige;
-  border: 1px solid rgb(165, 160, 160);
-  border-radius: 3px;
- 
-}
+
+#searchName,
 #searchCategory {
-  width: 500px;
-  height: 25px;
+  width: 50%;
+  height: 35px;
+
   background-color: beige;
   border: 1px solid rgb(165, 160, 160);
   border-radius: 3px;
- 
+
+  padding: 5px 10px;
 }
-.btn{
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn {
   height: 40px;
+  padding: 0 20px;
+  cursor: pointer;
 }
+
+/* =========================
+   PRODUCTS
+========================= */
 
 #products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 15px;
+
+  width: 90%;
+  max-width: 1200px;
+
+  margin: auto;
   padding: 20px;
 }
 
@@ -104,35 +128,163 @@ header {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+
+  width: 90%;
+  max-width: 1200px;
+
+  margin: auto;
   padding: 20px;
 }
 
+/* =========================
+   CARD
+========================= */
+
 .card {
-  background: #fff;
+  background: cornsilk;
+
   border-radius: 15px;
   overflow: hidden;
-  background-color: cornsilk;
-  
+
+  padding: 15px;
+
+  width: 100%;
 }
 
-/* tablet*/
+/* Make images responsive */
+
+.card img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+
+  display: block;
+  object-fit: cover;
+}
+
+/* =========================
+   TABLET
+========================= */
+
 @media (max-width: 1024px) {
   .products-container {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-/*mobile */
-@media (max-width: 600px) {
-  .products-container {
-    grid-template-columns: 1fr;
+  .container {
+    width: 90%;
+  }
+
+  .container2 {
+    width: 90%;
   }
 }
 
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  header {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 25px;
+  }
+
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .container2 {
+    width: 95%;
+
+    /* Search inputs become vertical */
+    flex-direction: column;
+
+    margin: 15px auto;
+  }
+
+  #searchName,
+  #searchCategory {
+    width: 100%;
+  }
+
+  .products-container {
+    grid-template-columns: 1fr;
+
+    width: 95%;
+    padding: 10px;
+  }
+
+  #products {
+    grid-template-columns: 1fr;
+
+    width: 95%;
+    padding: 10px;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  footer {
+    height: auto;
+    padding: 20px 10px;
+  }
+}
+
+/* =========================
+   VERY SMALL PHONES
+========================= */
+
+@media (max-width: 400px) {
+  header h1 {
+    font-size: 22px;
+  }
+
+  .container {
+    width: 96%;
+    padding: 10px;
+  }
+
+  #name,
+  #category,
+  #price,
+  #quantity,
+  #text,
+  #file {
+    height: 38px;
+  }
+
+  .products-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  #products {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
 footer {
   width: 100%;
+
   background-color: bisque;
+
   text-align: center;
-  height: 40px;
-  padding-top: 30px;
+
+  min-height: 40px;
+  padding: 30px 10px 10px;
 }
