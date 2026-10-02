@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>work by myself</title>
+    <link rel="stylesheet" href="first.css">
+</head>
+<body>
+    <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <header>
+        <h1>Product Manager</h1>
+        
+    </header>
+
+    <!-- form -->
+  <section>
+    <div class="container">
+    <input type="text" placeholder="Product Name" id="name">
+    <input type="text" placeholder="Category" id="category">
+    <input type="number" placeholder="Price" id="price">
+    <input type="number" placeholder="Quantity" id="quantity">
+    <input type="file" id="file">
+    <textarea  rows="4" id="text" placeholder="Direction"></textarea>
+
+    <button onclick="addProduct()" class="btn">Add Product</button>
+</div>
+</section>
+    <hr>
+    <section class="container2">
+    <!-- search -->
+    <input type="text" placeholder="Search by name" id="searchName" onkeyup="searchByName()">
+    <input type="text" placeholder="Filter by category" id="searchCategory" onkeyup="searchByCategory()">
+</section>
+
+<h3>Total Products: <span id="count">0</span></h3>
+    <!-- product list -->
+    <section id="products"></section>
+    <div class="products-container" id="productsContainer">
+  
+        <div class="card">
+         
+        </div>
+      
+      </div>
+       
+    
+
+    <footer>
+        
+        <p>© 2026 Product Manager</p>
+    </footer>
+
+    <script src="hass.js"></script>
+</body>
+</html>
